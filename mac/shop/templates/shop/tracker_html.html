@@ -1,0 +1,128 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} Tracking Order {% endblock %}
+
+{% block body %}
+<div class="container my-3">
+    <div class="col">
+    <h3>My Awesome Cart -Enter your Order ID and Email address</h3>
+      <form method="post" action="#" id="trackerform">{% csrf_token %}
+
+  <div class="form-row">
+       <div class="form-group col-md-6">
+      <label for="orderid">Order ID</label>
+      <input type="text" class="form-control" id="orderid" name="orderid" placeholder="Order ID">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" name="email"  placeholder="input@example.com">
+    </div>
+
+         </div>
+           <button type="submit" class="btn btn-primary track">Track</button>
+      </form>
+    <div class="col my-4" >
+        <h3>Your Order Track</h3>
+        <div class="my-3" >
+            <ul class="list-group" id="items">
+            Enter ur order Id and click Track to find details.
+            </ul>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock  %}
+
+
+{% block js %}
+<script>
+$('#trackerform').submit(function(event)  {
+console.log("hello");
+$('#items').empty;
+var formData = {
+        'orderid': $('input[name=orderid]').val,
+        'email': $('input[name=email]').val,
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val
+    };
+    $.ajax({
+      type:'POST',
+      url:'/shop/tracker/',
+      data: formData,
+      encode: true
+    })
+    .done(function(data){
+      console.log(data);
+      updates= JSON.parse(data);
+      if(updates.length>0 & updates!={}){
+      for(i=0;i<updates.length;i++){
+let text = updates[i]['text'];
+let time = updates[i]['time'];
+str =`<li class="list-group-item d-flex justify-content-between align-items-center">
+    ${text}
+    <span class="badge badge-primary badge-pill">${time}</span>
+  </li>`
+$('#items').append(str);
+    }
+  }
+  else{
+    str =`<li class="list-group-item d-flex justify-content-between align-items-center">
+    SORRY
+  </li>`
+  $('#items').append(str);
+  }
+      });
+      event.preventDefault();  //prevents default behaviour of form to get reload.
+  });
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+console.log("enetered 2");
+$('#items').empty();
+
+str =`<li class="list-group-item d-flex justify-content-between align-items-center">
+    Hello
+    <span class="badge badge-primary badge-pill">18</span>
+  </li>`
+$('#items').append(str);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% block js %}
+<script>
+console.log("entered");
+$('#trackerform').submit(function(event){
+console.log("entered2");
+
+});
+</script>
+{% endblock %}

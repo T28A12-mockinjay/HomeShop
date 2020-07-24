@@ -1,0 +1,51 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %} Tracking Order {% endblock %}
+
+{% block body %}
+<div class="container my-3">
+    <div class="col">
+    <h3>My Awesome Cart -Enter your Order ID and Email address</h3>
+      <form method="post" action="/shop/tracker/" id="trackerform">{% csrf_token %}
+
+  <div class="form-row">
+       <div class="form-group col-md-6">
+      <label for="orderid">Order ID</label>
+      <input type="text" class="form-control" id="orderid" name="orderid" placeholder="Order ID">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" name="email"  placeholder="input@example.com">
+    </div>
+
+         </div>
+           <button type="submit" class="btn btn-primary track">Track</button>
+      </form>
+    <div class="col my-4" >
+        <h3>Your Order Track</h3>
+        <div class="my-3" >
+
+            <ul class="list-group" id="items">
+            Here will be the details:
+                {% if update != ""  %}
+                {% for k in update %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{k.text}}
+                 <span class="badge badge-primary badge-pill">{{k.time}}</span>
+                  </li>
+                {% endfor %}
+
+                {% else %}
+                <i>CHECK IF YOU HAVE ENTERED CORRECT ID AND EMAIL OR NOT</i>
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock  %}
+
+
+
+

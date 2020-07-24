@@ -1,0 +1,2 @@
+This is my static file.
+We are currently in blog app.
